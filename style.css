@@ -1,8 +1,9 @@
 .container{
     display: flex;
+
 }
 
 .grid{
-    background-color: aqua
-    ;
+    background-color: aqua;
+    margin: 0;
 }
