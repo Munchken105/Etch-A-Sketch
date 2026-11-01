@@ -1,6 +1,11 @@
 body{
     margin: 0;
 }
+
+.content{
+    display: flex;
+    flex-direction: column;
+}
 #container{
     display: flex;
     flex-direction: row;
@@ -8,12 +13,23 @@ body{
 }
 
 .grid{
-    flex: 0 0 calc(100% / 16);
+    box-sizing: border-box;
     background-color: black;
     aspect-ratio: 1 / 1;
     width: 100% / 16;
 }
 
 .grid:hover{
+    cursor: pointer;
+}
+
+.btn{
+    justify-self: center;
+    align-self: center;
+    border-radius: 12%;
+    width: 40%;
+}
+
+.btn:hover{
     cursor: pointer;
 }
