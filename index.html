@@ -6,13 +6,34 @@
     <title>Etch-A-Sketch</title>
     <script src="main.js" defer></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="image/paintbrush.png">
 </head>
 <body>
     <div class="content">
-        <button class="btn">pick grid size</button>
-        
-        <div id="container">
-            <!-- this container is being used to hold the divs for the grid using DOM manipulation-->
+
+        <div class="top-content">
+            <h1>Etch-A-Sketch</h1>
+            <h2><a target="_blank" rel="noopener noreferrer" href="https://github.com/Munchken105">Github: Munchken105</a></h2>
+        </div>
+
+        <div class="main-content"> 
+            
+            <div class="settings">
+                <input type="color" id="draw" name="choose color" value="#00000"/>
+                <label for="draw">Pick Your Color</label>
+                <button id="color">Color Mode</button>
+                <button id="rainbow">Rainbow Mode</button>
+                <button id="clear">Clear Board</button>
+            </div>
+            
+            <div class="wrapper">
+                <div id="container">
+                    <!-- this container is being used to hold the divs for the grid using DOM manipulation-->
+                </div>
+            </div>
+        </div>  
+        <div class="footer">
+            <a target="_blank" rel="noopener noreferrer" href="https://www.flaticon.com/free-icons/brush" title="brush icons">Brush icons created by Magnific - Flaticon</a>
         </div>
     </div>
 </body>

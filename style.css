@@ -5,18 +5,68 @@ body{
 .content{
     display: flex;
     flex-direction: column;
+    background-color: #DACAA4;
+    min-height: 100vh;
 }
+
+.main-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex: 1;
+}
+
+.settings{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.settings button{
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.settings input{
+    cursor: pointer;
+}
+
+.top-content{
+    display: flex;
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper{
+    display: flex;
+    box-sizing: border-box;
+    background-color: #111111;
+    justify-content: center;
+    align-self: center;
+    width: fit-content;
+    padding: 20px;
+    width: min(90%, 640px);
+}
+
 #container{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    background-color: white;
+    aspect-ratio: 1 / 1;
+    width: 100%;
 }
+
+
 
 .grid{
     box-sizing: border-box;
-    background-color: black;
+    background-color: white;
     aspect-ratio: 1 / 1;
-    width: 100% / 16;
 }
 
 .grid:hover{
@@ -32,4 +82,16 @@ body{
 
 .btn:hover{
     cursor: pointer;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-around;
+    background-color: #111111;
+    margin-top: auto;
+}
+
+.footer a{
+    color: whitesmoke;
+    text-decoration: underline;
 }

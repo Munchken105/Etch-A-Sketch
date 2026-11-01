@@ -1,4 +1,5 @@
-const defaultColor = "#0000";
+const defaultColor = "#ffffff";
+const defaultMode = 'color';
 
 function createGrid(input = 16){
     const container = document.querySelector("#container");
@@ -12,26 +13,23 @@ function createGrid(input = 16){
     }
 }
 
+    const getRandomHSL = () => {
+    const h = Math.floor(Math.random() * 361);
+    const s = Math.floor(Math.random() * (95 - 70 + 1) + 70);
+    const l = Math.floor(Math.random() * (96 - 60 + 1) + 60);
+    return `hsl(${h}deg ${s}% ${l}%)`
+    }
 
 
 
 function rotateColors(){
-    const getRandomHSL = () => {
-    const h = Math.floor(Math.random() * 361);
-    const s = Math.floor(Math.random() * (95 - 70 + 1) + 70);
-    const l = Math.floor(Math.random() * (96 - 85 + 1) + 85);
-    return `hsl(${h}deg ${s}% ${l}%)`
-    }
-
     const grids = document.querySelectorAll('.grid');
 
     grids.forEach((grid) => {
-        let entered = 0;
         grid.addEventListener("mouseenter", () =>{
-            if(entered == 0){
+            if(grid.style.backgroundColor === ""){
                 grid.style.backgroundColor = getRandomHSL();
                 grid.style.opacity = "0.1";
-                entered++;
             }
 
             else{
@@ -74,12 +72,25 @@ function promptUser(){
     });
 }
 
+function clearBoard(){
+    const btn = document.querySelector("#clear");
+    btn.addEventListener("click", () => {
+        console.log("fired");
+        const grids = document.querySelectorAll('.grid');
+        grids.forEach((grid) => {
+            grid.style.backgroundColor = "";
+            grid.style.opacity = "1";
+        });
+    });
+}
+
 
 
 function main(){
     createGrid();
     rotateColors();
-    promptUser();
+    //promptUser();
+    clearBoard();
 }
 
 main();
