@@ -1,9 +1,19 @@
-.container{
+body{
+    margin: 0;
+}
+#container{
     display: flex;
-
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .grid{
-    background-color: aqua;
-    margin: 0;
+    flex: 0 0 calc(100% / 16);
+    background-color: black;
+    aspect-ratio: 1 / 1;
+    width: 100% / 16;
+}
+
+.grid:hover{
+    cursor: pointer;
 }
