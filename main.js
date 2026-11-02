@@ -60,20 +60,21 @@ function colorGrid(grid){
 
 
 function draw(){
-    const grids = document.querySelectorAll('.grid');
+    const container = document.querySelector("#container");
 
-    grids.forEach((grid) => {
-        grid.addEventListener("mouseenter", () =>{
-            if(!isDrawing) return;
-            colorGrid(grid);
+    container.addEventListener("mousedown", (e) =>{
+        if (e.button !== 0) return;
+        if (!e.target.classList.contains("grid")) return;
+        e.preventDefault();
+        isDrawing = true;
+        colorGrid(e.target);
+    });
 
-        })
-        grid.addEventListener("mousedown", (e) => {
-            if(e.button === 0){
-                isDrawing = true;
-                colorGrid(grid);
-            }
-        });
+    container.addEventListener("mouseover", (e) => {
+        if (!isDrawing) return;
+        if (!e.target.classList.contains("grid")) return;
+
+        colorGrid(e.target);
     });
 }
 
@@ -81,6 +82,11 @@ function mouseState(){
         document.addEventListener("mouseup", () => {
         isDrawing = false;
     });
+
+    window.addEventListener("blur",() =>{
+        isDrawing = false;
+    })
+
 }
 
 function selectMode(){
@@ -112,6 +118,20 @@ function selectColor(){
     });
 }
 
+function inputSlider(){
+    const slider = document.querySelector("#slider");
+    const valueDisplay = document.querySelector("#slider-value");
+    slider.addEventListener('input', (e)=>{
+        valueDisplay.textContent = `${e.target.value}x${e.target.value}`;
+
+    })
+    slider.addEventListener('change', (e) => {
+        isDrawing = false;
+        createGrid(Number(e.target.value));
+    });
+    
+}
+
 
 
 function clearBoard(){
@@ -135,6 +155,7 @@ function main(){
     selectMode();
     selectColor();
     mouseState();
+    inputSlider();
 }
 
 main();
