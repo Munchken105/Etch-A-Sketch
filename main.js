@@ -1,5 +1,8 @@
-const defaultColor = "#ffffff";
-const defaultMode = 'color';
+const defaultColor = "#000000";
+const defaultMode = "draw";
+let mode = defaultMode;
+let selectedColor = defaultColor;
+let isDrawing = false;
 
 function createGrid(input = 16){
     const container = document.querySelector("#container");
@@ -13,64 +16,103 @@ function createGrid(input = 16){
     }
 }
 
-    const getRandomHSL = () => {
+const getRandomHSL = () => {
     const h = Math.floor(Math.random() * 361);
     const s = Math.floor(Math.random() * (95 - 70 + 1) + 70);
     const l = Math.floor(Math.random() * (96 - 60 + 1) + 60);
     return `hsl(${h}deg ${s}% ${l}%)`
-    }
+}
 
 
+function colorGrid(grid){
+        if(mode === "rainbow"){
+            if (grid.dataset.mode !== "rainbow"){
+                grid.style.backgroundColor = getRandomHSL();
+                grid.style.opacity = "0.1";
+                grid.dataset.mode = "rainbow"
+                return;
+            }
+        }
+        else if(mode === "draw"){
+            if (grid.dataset.color !== selectedColor || grid.dataset.mode !== "draw"){
+                grid.style.backgroundColor = selectedColor;
+                grid.dataset.color = selectedColor;
+                grid.dataset.mode = "draw";
+                grid.style.opacity = "0.1";
+                return;
+            }
+        }
 
-function rotateColors(){
+        else if(mode === "eraser"){
+            grid.style.backgroundColor = "";
+            grid.style.opacity = "1";
+            delete grid.dataset.mode;
+            delete grid.dataset.color;
+            return;
+        }
+        let currentOpacity = parseFloat(grid.style.opacity) || 0;
+        let newOpacity = currentOpacity + 0.1;
+        if (newOpacity > 1){
+            newOpacity = 1;
+        }
+        grid.style.opacity = newOpacity.toString();
+}
+
+
+function draw(){
     const grids = document.querySelectorAll('.grid');
 
     grids.forEach((grid) => {
         grid.addEventListener("mouseenter", () =>{
-            if(grid.style.backgroundColor === ""){
-                grid.style.backgroundColor = getRandomHSL();
-                grid.style.opacity = "0.1";
-            }
+            if(!isDrawing) return;
+            colorGrid(grid);
 
-            else{
-                let currentOpacity = parseFloat(grid.style.opacity) || 0;
-                let newOpacity = currentOpacity + 0.1;
-                if (newOpacity > 1){
-                    newOpacity = 1;
-                }
-                grid.style.opacity = newOpacity.toString();
-            }
         })
-    })
-}
-
-function promptUser(){
-    const btn = document.querySelector(".btn");
-    let input;
-    btn.addEventListener("click", () => {
-        let loopCondition = true;
-        while(loopCondition){
-            input = prompt("Enter the number of squares per side for a new grid");
-            if (input === null){
-                console.log("input was NULL for some reason?");
-                return;
+        grid.addEventListener("mousedown", (e) => {
+            if(e.button === 0){
+                isDrawing = true;
+                colorGrid(grid);
             }
-            input = Number(input);
-
-            if(!Number.isInteger(input)){
-                alert("input must be a number a integer");
-            }
-            else if(input > 100 || input <= 0){
-                alert("input cant be less than or equal to 0 and has to be less than 100");
-            }
-            else {
-                loopCondition = false;
-            }
-        }
-        createGrid(input);
-        rotateColors();
+        });
     });
 }
+
+function mouseState(){
+        document.addEventListener("mouseup", () => {
+        isDrawing = false;
+    });
+}
+
+function selectMode(){
+    const color = document.querySelector("#color");
+    const rainbow = document.querySelector("#rainbow");
+    const eraser = document.querySelector("#eraser");
+    const container = document.querySelector("#container");
+
+    color.addEventListener("click", () => {
+        mode = "draw";
+        container.classList.remove("eraser-cursor");
+    });
+    rainbow.addEventListener("click", () => {
+        mode = "rainbow"
+        container.classList.remove("eraser-cursor");
+    });
+    eraser.addEventListener("click", () => {
+        mode = "eraser";
+        container.classList.add("eraser-cursor");
+    });
+}
+
+function selectColor(){
+    const picker = document.querySelector("#picker");
+    picker.value = selectedColor;
+
+    picker.addEventListener("input", () => {
+        selectedColor = picker.value;
+    });
+}
+
+
 
 function clearBoard(){
     const btn = document.querySelector("#clear");
@@ -80,19 +122,19 @@ function clearBoard(){
         grids.forEach((grid) => {
             grid.style.backgroundColor = "";
             grid.style.opacity = "1";
+            delete grid.dataset.color;
+            delete grid.dataset.mode;
         });
     });
 }
 
-
-
 function main(){
     createGrid();
-    rotateColors();
-    //promptUser();
+    draw();
     clearBoard();
+    selectMode();
+    selectColor();
+    mouseState();
 }
 
 main();
-
-
